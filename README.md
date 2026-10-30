@@ -15,6 +15,16 @@ cargo xtask bundle elabs_lxr --release
 cp -R "target/bundled/ELABS RLX.vst3" ~/Library/Audio/Plug-Ins/VST3/
 ```
 
+Release build, one plugin for Apple Silicon and Intel (needs `rustup target add
+x86_64-apple-darwin`), packed into an installer for `/Library/Audio/Plug-Ins/VST3`:
+
+```sh
+tools/make_installer.sh        # dist/ELABS RLX <version>.pkg
+```
+
+The package is unsigned unless `SIGN_ID` names a Developer ID Installer certificate; unsigned, macOS
+asks to confirm it on first open (right click > Open).
+
 ## MIDI
 
 | Channel | Notes | Plays |

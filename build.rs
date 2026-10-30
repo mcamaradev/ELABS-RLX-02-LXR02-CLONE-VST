@@ -66,8 +66,14 @@ fn main() {
     build.compile("lxr_engine");
 
     let out = PathBuf::from(std::env::var("OUT_DIR").unwrap());
+    // built once per architecture; bundle-universal lipos the plugins together
+    let arch = match std::env::var("CARGO_CFG_TARGET_ARCH").unwrap().as_str() {
+        "aarch64" => "arm64",
+        other => other,
+    }
+    .to_string();
     let status = std::process::Command::new("cc")
-        .args(["-dynamiclib", "-arch", "arm64", "-mmacosx-version-min=11.0", "-o"])
+        .args(["-dynamiclib", "-arch", &arch, "-mmacosx-version-min=11.0", "-o"])
         .arg(out.join("lxr_engine.dylib"))
         .arg(format!("-Wl,-force_load,{}", out.join("liblxr_engine.a").display()))
         .args(["-install_name", "@rpath/lxr_engine.dylib", "-lm"])

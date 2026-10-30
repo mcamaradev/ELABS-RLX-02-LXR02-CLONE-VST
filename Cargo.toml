@@ -1,6 +1,6 @@
 [package]
 name = "elabs_lxr"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 license = "GPL-3.0-only"
 description = "LXR V2 drum engine (Erica Synths firmware, GPL-3.0) as a VST3 instrument"
