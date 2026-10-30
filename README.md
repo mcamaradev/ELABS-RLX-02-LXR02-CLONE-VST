@@ -262,5 +262,5 @@ hooks ENTROPIA MOD needs:
 ## Licence
 
 GPL-3.0-only, like the firmware ([LICENSE](LICENSE)). "Erica Synths" and "LXR" are trademarks of
-Erica Synths; this is an unofficial personal build, not to be distributed under that name. The
-built-in kits are Erica Synths' and Hrtl's free downloads, included here for personal use.
+Erica Synths; ELABS RLX is an independent, unofficial build. The built-in ELABS kits are its own;
+Erica Synths' and Hrtl's content isn't included and is imported by the user from their downloads.
