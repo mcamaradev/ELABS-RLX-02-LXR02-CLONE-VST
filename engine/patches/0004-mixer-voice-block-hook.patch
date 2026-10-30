@@ -1,0 +1,19 @@
+--- a/Core/Src/Soundengine/DSPAudio/mixer.c
++++ b/Core/Src/Soundengine/DSPAudio/mixer.c
+@@ -57,6 +57,7 @@
+ 	FxBus_init();
+ }
+ //-----------------------------------------------------------------------
++void lxr_voice_block(uint8_t voiceNr, const int16_t* buffer);
+ IN_ITCM_RAM void mixer_decimateBlock(const uint8_t voiceNr, int16_t* buffer)
+ {
+ 	uint8_t i;
+@@ -72,6 +73,8 @@
+ 		}
+ 		buffer[i] = mixer_voice_samples[voiceNr];
+ 	}
++	// the plugin's ENTROPIA FX sends (engine/lxr_entropia.c)
++	lxr_voice_block(voiceNr, buffer);
+ }
+ //#pragma GCC push_options
+ //#pragma GCC optimize ("O0")

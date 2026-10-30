@@ -1,0 +1,22 @@
+{
+  "files.associations": {
+    "array": "c",
+    "memory": "c",
+    "functional": "c",
+    "tuple": "c",
+    "utility": "c",
+    "fifo.h": "c",
+    "midiparser.h": "c",
+    "uart.h": "c",
+    "string": "c",
+    "string_view": "c",
+    "modulationnode.h": "c",
+    "valueshaper.h": "c",
+    "fxbus.h": "c",
+    "midimessages.h": "c",
+    "menu.h": "c",
+    "soundengine.h": "c",
+    "random.h": "c",
+    "presetmanager.h": "c"
+  }
+}

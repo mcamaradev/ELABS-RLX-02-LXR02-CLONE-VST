@@ -1,0 +1,41 @@
+[package]
+name = "elabs_lxr"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-only"
+description = "LXR V2 drum engine (Erica Synths firmware, GPL-3.0) as a VST3 instrument"
+
+[workspace]
+members = ["xtask"]
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "de421011f41a6d10fc8c7a6084e4f4dee0143683", default-features = false, features = ["vst3"] }
+nih_plug_egui = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "de421011f41a6d10fc8c7a6084e4f4dee0143683" }
+base64 = "0.22"
+libloading = "0.8"
+png = "0.17"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+rfd = { version = "0.15", default-features = false }
+
+[build-dependencies]
+cc = "1"
+
+[profile.release]
+lto = "thin"
+strip = "symbols"
+
+[features]
+# `cargo run --release --features preview --bin lxr_preview` opens the plugin as a standalone app
+preview = ["nih_plug/standalone"]
+
+[[bin]]
+name = "lxr_preview"
+path = "src/bin/preview.rs"
+required-features = ["preview"]
+
+# nih_plug_egui with EguiState::set_requested_size() public (size presets); see vendor/README.md
+[patch."https://github.com/robbert-vdh/nih-plug.git"]
+nih_plug_egui = { path = "vendor/nih_plug_egui" }

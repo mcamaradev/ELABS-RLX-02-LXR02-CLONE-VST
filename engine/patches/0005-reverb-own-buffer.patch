@@ -1,0 +1,13 @@
+--- a/Core/Src/Soundengine/DSPAudio/FX/Reverb.c
++++ b/Core/Src/Soundengine/DSPAudio/FX/Reverb.c
+@@ -33,7 +33,9 @@
+ 	TiltEq_init(&r->eqFb);
+ 
+ 	SineCosine_init(&r->lfo);
+-	r->reverbBufferSram = (__fp16*)FX_BUFFER;
++	// a buffer of its own if the caller set one (the plugin's ENTROPIA reverb runs next to the delay)
++	if(!r->reverbBufferSram)
++		r->reverbBufferSram = (__fp16*)FX_BUFFER;
+ 
+ 	r->earlyVolume = 1.0f;
+ 

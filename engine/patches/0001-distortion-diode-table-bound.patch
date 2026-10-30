@@ -1,0 +1,11 @@
+--- a/Core/Src/Soundengine/DSPAudio/FX/Distortion.c
++++ b/Core/Src/Soundengine/DSPAudio/FX/Distortion.c
+@@ -139,6 +139,8 @@
+ 	//float index = (in+4.2f) * 30.47f; // [0:256]
+ 
+ 	uint16_t itg = (int16_t) index;
++	// in == 1.0 gives index 256 and read table_1n914[257]; 255 + frac 1.0 gives the same value
++	if (itg > 255) itg = 255;
+ 	float frac = index - itg;
+ 	return lerp(table_1n914[itg], table_1n914[itg+1], frac);
+ 

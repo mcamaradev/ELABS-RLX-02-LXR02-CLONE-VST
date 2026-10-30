@@ -1,0 +1,43 @@
+--- a/Core/Src/Soundengine/DSPAudio/wavetable.c
++++ b/Core/Src/Soundengine/DSPAudio/wavetable.c
+@@ -543,7 +543,7 @@
+ 1024
+ */
+ 
+-const int16_t sawTable[11][1024] =
++const int16_t sawTable[12][1024] =
+ {
+ 
+ //---- Table 0 ----
+@@ -2861,7 +2861,7 @@
+ 1024
+ */
+ 
+- const int16_t recTable[11][1024] =
++ const int16_t recTable[12][1024] =
+ {
+ 
+ //---- Table 0 ----
+@@ -5179,7 +5179,7 @@
+ waveform size
+ 1024*/
+ 
+-const int16_t triTable[11][1024] =
++const int16_t triTable[12][1024] =
+ {
+ 
+ //---- Table 0 ----
+--- a/Core/Inc/Soundengine/DSPAudio/wavetable.h
++++ b/Core/Inc/Soundengine/DSPAudio/wavetable.h
+@@ -37,8 +37,8 @@
+ 10 - 120- 8372.02
+  */
+ 
+-extern const int16_t recTable[11][1024];
+-extern const int16_t triTable[11][1024];
+-extern const int16_t sawTable[11][1024];
++extern const int16_t recTable[12][1024];
++extern const int16_t triTable[12][1024];
++extern const int16_t sawTable[12][1024];
+ 
+ #endif /* WAVETABLES_H_ */

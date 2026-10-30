@@ -1,0 +1,15 @@
+--- a/Core/Src/Soundengine/DSPAudio/FX/Delay.c
++++ b/Core/Src/Soundengine/DSPAudio/FX/Delay.c
+@@ -95,6 +95,12 @@
+ 
+ 	int32_t x;
+ 	int32_t* stereoOut = (int32_t*)outL;
++
++	// switching from the normal delay leaves positions in the whole buffer; ping-pong uses
++	// halves, and FX_BUFFER[halfsize + write] would then be written past the end
++	d->write &= FX_BUFFER_SIZE>>1;
++	d->oldRead &= FX_BUFFER_SIZE>>1;
++	d->newRead &= FX_BUFFER_SIZE>>1;
+ 
+ 	for(uint8_t i=0;i<size;i++)
+ 	{
