@@ -343,14 +343,14 @@ fn draw_inner(ui: &mut Ui, setter: &ParamSetter, st: &mut State, b: &mut Browser
             b.save_focus = b.saving;
         }
     }
-    let search = Rect::from_min_size(Pos2::new(336.0, 14.0), Vec2::new(240.0, 26.0));
+    let search = Rect::from_min_size(Pos2::new(336.0, 14.0), Vec2::new(220.0, 26.0));
     ui.scope_builder(egui::UiBuilder::new().max_rect(search), |ui| {
-        ui.add(egui::TextEdit::singleline(&mut b.query).hint_text("search names, banks, kits").desired_width(240.0));
+        ui.add(egui::TextEdit::singleline(&mut b.query).hint_text("search names, banks, kits").desired_width(220.0));
     });
-    if button(ui, Rect::from_min_size(Pos2::new(588.0, 14.0), Vec2::new(104.0, 26.0)), "★ favorites", b.favorites_only).clicked() {
+    if button(ui, Rect::from_min_size(Pos2::new(568.0, 14.0), Vec2::new(100.0, 26.0)), "★ favorites", b.favorites_only).clicked() {
         b.favorites_only = !b.favorites_only;
     }
-    if button(ui, Rect::from_min_size(Pos2::new(698.0, 14.0), Vec2::new(96.0, 26.0)), "sort by ★", b.sort_by_stars).clicked() {
+    if button(ui, Rect::from_min_size(Pos2::new(674.0, 14.0), Vec2::new(92.0, 26.0)), "sort by ★", b.sort_by_stars).clicked() {
         b.sort_by_stars = !b.sort_by_stars;
     }
     let import_help = "bring in LXR-02 kits and projects: Erica Synths' factory content, sound packs, an SD card copy";
