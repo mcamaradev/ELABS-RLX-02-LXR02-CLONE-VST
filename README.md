@@ -1,4 +1,34 @@
-# ELABS RLX (VST3)
+# ELABS RLX
+
+**The LXR-02 drum engine as a free VST3 for macOS (Apple Silicon and Intel).** It isn't an emulation:
+it's the open-source LXR V2 firmware's own C sound engine and sequencer, compiled for the Mac and
+wrapped in a panel laid out like the hardware. Made by EntropiaLabs.
+
+![ELABS RLX panel](docs/panel.jpg)
+
+- six synthesized drum voices (three drums, snare, clap/cymbal, hi-hats) with FM, transient clicks,
+  filters, LFOs, velocity modulation and kit morphing
+- the hardware's step sequencer synced to the DAW: 64 patterns of 7 tracks, parameter locks,
+  probability, flams, euclidean patterns, shuffle, song mode and a LANES view that edits every step
+- **ENTROPIA MOD**: per-voice sends to delay, ring modulator and reverb, then a master filter,
+  drive and compressor
+- **the Maestro**: plays your pattern like a drummer, with variations, fills and moves on decays,
+  sends, LFO and filter
+- kits and patterns in the LXR-02's own .SND / .PAT formats; Erica Synths' free factory content
+  imports straight from their zips (BROWSER > IMPORT)
+- 11 kits and 7 patterns by EntropiaLabs built in, a preset browser with stars and tags, undo/redo,
+  a resizable panel and any number of instances
+
+**Download:** the installer is on the [Releases](../../releases) page. macOS 11 or newer, any VST3
+host (built and tested in Ableton Live 12). The installer isn't signed with a paid Apple
+certificate, so macOS asks once: right-click the .pkg > Open.
+
+| | |
+|---|---|
+| ![Maestro](docs/maestro.jpg) | ![ENTROPIA MOD](docs/fx.jpg) |
+| ![Preset browser](docs/browser.jpg) | |
+
+## How it's built
 
 Formerly ELABS LXR; the VST3 class id is unchanged, so sets made with the old name still load it.
 
@@ -7,7 +37,6 @@ The LXR V2 drum engine (Erica Synths, GPL-3.0 firmware from
 instrument on macOS. The firmware's sound engine is compiled from `engine/firmware` (commit in
 `engine/FIRMWARE_COMMIT`), changed only by the bounds fixes and two small hooks in `engine/patches`; `engine/shim`
 replaces the STM32 HAL and `engine/lxr_bridge.c` drives the engine the way the LXR's front panel does.
-
 ## Build and install
 
 ```sh
