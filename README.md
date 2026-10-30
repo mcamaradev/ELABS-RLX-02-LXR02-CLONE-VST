@@ -54,8 +54,12 @@ Six ELABS kits are built in (bank **ELABS**): TEKKNO, BOOM808, ELECTRO, LOFIDUST
 MINIMAL, each the firmware's init kit with its own settings, with one pattern each in the ELABS
 project. They are written by `src/elabs_kits.rs` (`cargo test --release --lib write_elabs_content
 -- --ignored --nocapture` tunes the drums by measuring them, writes `kits/elabs/ELABS` and renders
-`target/elabs_kits_demo_48k.wav`); `tools/gen_kits.py` and `tools/gen_projects.py` pack that folder
-into `kits/lxr_kits.bin` / `kits/lxr_projects.bin`.
+`target/elabs_kits_demo_48k.wav`). Five EntropiaLabs kits made on the panel follow in the same bank
+(NTRPBT1, CHAPA, CONCRETO, FERRUGEM, MADRUGA), with the ENTROPIA project's pattern, in
+`kits/elabs/ENTROPIA`. `tools/gen_kits.py` and `tools/gen_projects.py` pack `kits/elabs` into
+`kits/lxr_kits.bin` / `kits/lxr_projects.bin`. The built-in kits come tagged (`BUILT_IN_TAGS` in
+`src/favorites.rs`) until the user changes their tags; a library kit with a built-in kit's sound is
+listed once.
 
 The LXR-02 factory content and Erica Synths' sound packs are not built in. They are free
 downloads on the LXR-02 product page; the browser's **IMPORT** button takes them as they come

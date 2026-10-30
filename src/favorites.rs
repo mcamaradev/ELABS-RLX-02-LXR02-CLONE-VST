@@ -7,6 +7,27 @@
 use std::collections::{BTreeSet, HashMap};
 use std::path::PathBuf;
 
+/// The tags the built-in kits come with (EntropiaLabs' own), until the user changes them. Keys hold
+/// the kits' fingerprints: a test checks they still match kit_table.rs after the kits change.
+const BUILT_IN_TAGS: &[(&str, &[&str])] = &[
+    ("kit:TEKKNO:8529e1fb", &["808", "Experimental", "Techno"]),
+    ("kit:BOOM808:4d98aaa2", &["808"]),
+    ("kit:ELECTRO:b73d2940", &["Electro", "Experimental"]),
+    ("kit:LOFIDUST:e3cf3cd1", &["Lo-fi"]),
+    ("kit:INDUSTRL:4b6ed36d", &["Industrial"]),
+    ("kit:MINIMAL:de8d49ec", &["Glitch"]),
+    ("kit:NTRPBT1:68941381", &["909", "Industrial"]),
+    ("kit:CHAPA:031178ea", &["808"]),
+    ("kit:FERRUGEM:0c4e84b7", &["808", "Industrial"]),
+    ("kit:CONCRETO:780debe4", &["909"]),
+    ("kit:MADRUGA:7b1edc10", &["909"]),
+];
+
+fn built_in(key: &str) -> Entry {
+    let tags = BUILT_IN_TAGS.iter().find(|(k, _)| *k == key).map_or(&[][..], |(_, t)| *t);
+    Entry { stars: 0, tags: tags.iter().map(|t| t.to_string()).collect() }
+}
+
 /// Tags offered before the user makes their own.
 pub const PRESET_TAGS: [&str; 12] =
     ["Techno", "House", "Electro", "Industrial", "Hip Hop", "808", "909", "Lo-fi", "Acoustic", "Glitch", "Ambient", "Experimental"];
@@ -65,17 +86,17 @@ impl Favorites {
     }
 
     pub fn get(&self, key: &str) -> Entry {
-        self.entries.get(key).cloned().unwrap_or_default()
+        self.entries.get(key).cloned().unwrap_or_else(|| built_in(key))
     }
 
     pub fn set_stars(&mut self, key: &str, stars: u8) {
-        self.entries.entry(key.to_string()).or_default().stars = stars.min(5);
+        self.entries.entry(key.to_string()).or_insert_with(|| built_in(key)).stars = stars.min(5);
         self.save();
     }
 
     pub fn toggle_tag(&mut self, key: &str, tag: &str) {
         let Some(tag) = clean_tag(tag) else { return };
-        let tags = &mut self.entries.entry(key.to_string()).or_default().tags;
+        let tags = &mut self.entries.entry(key.to_string()).or_insert_with(|| built_in(key)).tags;
         if !tags.remove(&tag) {
             tags.insert(tag);
         }
@@ -86,11 +107,13 @@ impl Favorites {
     pub fn all_tags(&self) -> Vec<String> {
         let mut tags: BTreeSet<String> = PRESET_TAGS.iter().map(|t| t.to_string()).collect();
         tags.extend(self.entries.values().flat_map(|e| e.tags.iter().cloned()));
+        tags.extend(BUILT_IN_TAGS.iter().flat_map(|(_, t)| t.iter().map(|t| t.to_string())));
         tags.into_iter().collect()
     }
 
     fn save(&mut self) {
-        self.entries.retain(|_, e| e.stars > 0 || !e.tags.is_empty());
+        // a built-in kit whose tags were all taken off keeps its (empty) line, or they'd come back
+        self.entries.retain(|k, e| *e != built_in(k));
         let Some(path) = &self.path else { return };
         let mut keys: Vec<&String> = self.entries.keys().collect();
         keys.sort();
@@ -145,6 +168,27 @@ mod tests {
         assert_eq!(g.get(&other), Entry::default());
         assert_eq!(text.lines().count(), 1);
         assert!(g.all_tags().contains(&"My owntag".to_string()) && g.all_tags().contains(&"909".to_string()));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn built_in_tags_match_the_built_in_kits() {
+        use crate::kit_table::{KITS, KIT_DATA, KIT_SIZE};
+        let keys: Vec<String> =
+            KITS.iter().enumerate().map(|(i, (_, name))| kit_key(name, &KIT_DATA[i * KIT_SIZE..(i + 1) * KIT_SIZE])).collect();
+        for (key, _) in BUILT_IN_TAGS {
+            assert!(keys.iter().any(|k| k == key), "{key} is no built-in kit any more: update BUILT_IN_TAGS");
+        }
+
+        let dir = std::env::temp_dir().join(format!("lxr-fav-built-in-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        let mut f = Favorites::at(dir.join("favorites.tsv"));
+        let tekkno = BUILT_IN_TAGS[0].0;
+        assert!(f.get(tekkno).tags.contains("Techno"));
+        for tag in ["808", "Experimental", "Techno"] {
+            f.toggle_tag(tekkno, tag);
+        }
+        assert!(f.get(tekkno).tags.is_empty(), "taken off, they stay off");
         let _ = std::fs::remove_dir_all(&dir);
     }
 }

@@ -25,7 +25,11 @@ pub fn all_kits() -> Vec<Kit> {
             data: KIT_DATA[i * KIT_SIZE..(i + 1) * KIT_SIZE].to_vec(),
         })
         .collect();
-    kits.extend(crate::library::kits().into_iter().map(|(bank, name, data)| Kit { bank, name, data }));
+    // a library kit with a built-in one's sound (saved from it, or the user's copy of it) is shown once
+    let built_in: std::collections::HashSet<Vec<u8>> = kits.iter().map(|k| k.data.clone()).collect();
+    kits.extend(
+        crate::library::kits().into_iter().filter(|(_, _, data)| !built_in.contains(data)).map(|(bank, name, data)| Kit { bank, name, data }),
+    );
     kits
 }
 
