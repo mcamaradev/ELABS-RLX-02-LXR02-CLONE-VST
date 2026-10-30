@@ -19,7 +19,8 @@ wrapped in a panel laid out like the hardware. Made by EntropiaLabs.
 - 11 kits and 7 patterns by EntropiaLabs built in, a preset browser with stars and tags, undo/redo,
   a resizable panel and any number of instances
 
-**Download:** the installer is on the [Releases](../../releases) page. macOS 11 or newer, any VST3
+**Download:** [ELABS RLX on Ko-fi](https://ko-fi.com/s/9348fe308a) (free, pay what you want) or the
+[Releases](../../releases) page here. macOS 11 or newer, any VST3
 host (built and tested in Ableton Live 12). The installer isn't signed with a paid Apple
 certificate, so macOS asks once: right-click the .pkg > Open.
 
